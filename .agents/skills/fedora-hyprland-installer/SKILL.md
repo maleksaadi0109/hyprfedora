@@ -1,6 +1,7 @@
 ---
 name: fedora-hyprland-installer
-description: Install, configure, verify, repair, update, and uninstall Hyprland on Fedora Linux. Use this skill when the user asks to install Hyprland on Fedora, configure a Fedora Hyprland desktop, fix a Hyprland installation, configure GPU-specific Hyprland support, configure Wayland portals, monitors, audio, login sessions, or completely remove the Hyprland setup.
+description: Install, configure, verify, repair, update, and uninstall Hyprland on Fedora Linux with GPU-aware detection (NVIDIA/AMD/Intel).
+date_added: "2026-07-26"
 ---
 
 # Fedora Hyprland Installer Skill
@@ -27,7 +28,7 @@ When the user asks to **"Install Hyprland"** or **"Setup Hyprland on Fedora"**:
 2. Execute `./scripts/preflight.sh` to verify Fedora release, network, package manager, and sudo access.
 3. Execute `./scripts/backup.sh` to preserve any pre-existing configurations.
 4. Execute `./scripts/install.sh` to install Hyprland, Wayland portal packages (`xdg-desktop-portal-hyprland`, `xdg-desktop-portal-gtk`), PipeWire/WirePlumber, terminal, launcher, status bar, and authentication agent.
-5. Execute `./scripts/configure.sh` to write a clean, functional initial Hyprland config (`~/.config/hypr/hyprland.conf`) tailored to detected terminal/launcher and GPU environment variables (e.g., `LIBVA_DRIVER_NAME`, `GBM_BACKEND`, `WLR_NO_HARDWARE_CURSORS` for NVIDIA).
+5. Execute `./scripts/configure.sh` to write a clean, functional initial Hyprland config (`~/.config/hypr/hyprland.conf`) tailored to detected terminal/launcher and GPU environment variables.
 6. Execute `./scripts/verify.sh` to ensure binaries, portal services, PipeWire, and login desktop entries (`/usr/share/wayland-sessions/hyprland.desktop`) exist and validate.
 7. Present a summary report detailing installed packages, backup paths, and login instructions.
 
@@ -55,11 +56,11 @@ When the user asks to **"Uninstall Hyprland"**:
 
 ## Reference Manuals
 
-- [Fedora Details](file:///home/supersusi/myprojects/hyperlandfedora/.agents/skills/fedora-hyprland-installer/references/fedora.md)
-- [Hyprland Config Guide](file:///home/supersusi/myprojects/hyperlandfedora/.agents/skills/fedora-hyprland-installer/references/hyprland.md)
-- [NVIDIA Setup & Wayland](file:///home/supersusi/myprojects/hyperlandfedora/.agents/skills/fedora-hyprland-installer/references/nvidia.md)
-- [AMD Mesa Stack](file:///home/supersusi/myprojects/hyperlandfedora/.agents/skills/fedora-hyprland-installer/references/amd.md)
-- [Intel Mesa Stack](file:///home/supersusi/myprojects/hyperlandfedora/.agents/skills/fedora-hyprland-installer/references/intel.md)
-- [Wayland & Environment](file:///home/supersusi/myprojects/hyperlandfedora/.agents/skills/fedora-hyprland-installer/references/wayland.md)
-- [Portals & PipeWire](file:///home/supersusi/myprojects/hyperlandfedora/.agents/skills/fedora-hyprland-installer/references/portals.md)
-- [Troubleshooting Matrix](file:///home/supersusi/myprojects/hyperlandfedora/.agents/skills/fedora-hyprland-installer/references/troubleshooting.md)
+- [Fedora Details](references/fedora.md)
+- [Hyprland Config Guide](references/hyprland.md)
+- [NVIDIA Setup & Wayland](references/nvidia.md)
+- [AMD Mesa Stack](references/amd.md)
+- [Intel Mesa Stack](references/intel.md)
+- [Wayland & Environment](references/wayland.md)
+- [Portals & PipeWire](references/portals.md)
+- [Troubleshooting Matrix](references/troubleshooting.md)
