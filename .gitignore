@@ -1,0 +1,11 @@
+# Logs & State
+*.log
+.local/
+backups/
+
+# System / OS files
+.DS_Store
+thumbs.db
+
+# Antigravity temporary files
+*.tmp
