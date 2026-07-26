@@ -3,6 +3,8 @@ set -Eeuo pipefail
 
 # Repair Script for Fedora Hyprland Installer
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 echo "=== Hyprland Repair Subsystem ==="
 
 REPAIRS_MADE=0
@@ -11,7 +13,7 @@ REPAIRS_MADE=0
 HYPR_CONF="${HOME}/.config/hypr/hyprland.conf"
 if [ ! -f "${HYPR_CONF}" ]; then
     echo "[!] Missing hyprland.conf detected. Running configuration builder..."
-    "$(dirname "$0")/configure.sh"
+    "${SCRIPT_DIR}/configure.sh"
     REPAIRS_MADE=$((REPAIRS_MADE + 1))
 fi
 
@@ -19,8 +21,11 @@ fi
 if ! rpm -q xdg-desktop-portal-hyprland &>/dev/null; then
     echo "[!] Missing xdg-desktop-portal-hyprland. Installing portal package..."
     if command -v dnf &>/dev/null; then
-        sudo dnf install -y xdg-desktop-portal-hyprland xdg-desktop-portal-gtk || true
-        REPAIRS_MADE=$((REPAIRS_MADE + 1))
+        if sudo dnf install -y xdg-desktop-portal-hyprland xdg-desktop-portal-gtk; then
+            REPAIRS_MADE=$((REPAIRS_MADE + 1))
+        else
+            echo "[!] Warning: Failed to install portal packages."
+        fi
     fi
 fi
 
@@ -40,7 +45,8 @@ fi
 
 # Subsystem 4: Restart user portals
 if command -v systemctl &>/dev/null; then
-    echo "[+] Resetting XDG portal user service..."
+    echo "[+] Resetting XDG portal user services..."
+    systemctl --user restart xdg-desktop-portal-hyprland 2>/dev/null || true
     systemctl --user restart xdg-desktop-portal 2>/dev/null || true
 fi
 
@@ -52,4 +58,4 @@ else
 fi
 
 # Re-run verification
-"$(dirname "$0")/verify.sh"
+"${SCRIPT_DIR}/verify.sh"

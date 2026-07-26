@@ -22,15 +22,14 @@ log_check() {
     else
         echo "  ✗ $msg"
         CHECK_FAIL=$((CHECK_FAIL + 1))
-        STATUS="PARTIAL"
     fi
 }
 
 echo "Components Check:"
 
 # 1. Hyprland executable
-if command -v hyprland &>/dev/null; then
-    ver=$(hyprland --version 2>/dev/null | head -n1 || echo "installed")
+if command -v Hyprland &>/dev/null || command -v hyprland &>/dev/null; then
+    ver=$(Hyprland --version 2>/dev/null | head -n1 || hyprland --version 2>/dev/null | head -n1 || echo "installed")
     log_check "PASS" "Hyprland binary found ($ver)"
 else
     log_check "FAIL" "Hyprland binary not found in PATH"
@@ -65,14 +64,17 @@ else
 fi
 
 # 5. XDG Desktop Portal
-if rpm -q xdg-desktop-portal-hyprland &>/dev/null || command -v xdg-desktop-portal &>/dev/null; then
-    log_check "PASS" "XDG Desktop Portal packages installed"
+if rpm -q xdg-desktop-portal-hyprland &>/dev/null; then
+    log_check "PASS" "XDG Desktop Portal Hyprland backend installed"
 else
     log_check "WARN" "XDG Desktop Portal backend for Hyprland not detected"
 fi
 
+# Determine overall status
 if [ "$CHECK_FAIL" -gt 0 ]; then
     STATUS="FAILED"
+elif [ "$CHECK_WARN" -gt 0 ]; then
+    STATUS="PARTIAL"
 fi
 
 echo "----------------------------------------"

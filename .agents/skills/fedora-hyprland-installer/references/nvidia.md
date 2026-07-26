@@ -7,10 +7,23 @@ NVIDIA GPUs require specific Wayland environment flags in `~/.config/hypr/hyprla
 env = LIBVA_DRIVER_NAME,nvidia
 env = GBM_BACKEND,nvidia-drm
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
-env = WLR_NO_HARDWARE_CURSORS,1
 env = NVD_BACKEND,direct
 ```
 
+For cursor rendering issues, use the Hyprland-native config option (Hyprland v0.36+):
+```text
+cursor {
+    no_hardware_cursors = true
+}
+```
+
+> **Note**: The old `WLR_NO_HARDWARE_CURSORS=1` environment variable is **deprecated** since Hyprland v0.36+. Use the `cursor` config block above instead.
+
 ## Drivers on Fedora
-Always use Fedora/RPM Fusion official packages (`akmod-nvidia`). 
+Always use Fedora/RPM Fusion official packages (`akmod-nvidia`).
 Never use raw `.run` installers from NVIDIA's website as they break Fedora kernel updates.
+
+## Hybrid Graphics (Intel + NVIDIA / AMD + NVIDIA)
+Laptops with dual GPUs may need additional configuration:
+- Check active GPU: `supergfxctl` or `prime-run`
+- Verify render offloading: `__NV_PRIME_RENDER_OFFLOAD=1 glxinfo | grep vendor`

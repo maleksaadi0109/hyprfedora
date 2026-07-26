@@ -15,23 +15,23 @@ if command -v lspci &>/dev/null; then
     LSPCI_OUTPUT=$(lspci -nnk 2>/dev/null | grep -A 2 -E "VGA|3D" || true)
 fi
 
-if echo "$LSPCI_OUTPUT" | grep -iq "nvidia"; then
+if echo "$LSPCI_OUTPUT" | grep -iq "nvidia" 2>/dev/null; then
     NVIDIA_DETECTED="true"
 fi
 
-if echo "$LSPCI_OUTPUT" | grep -iq -E "amd|radeon|advanced micro devices"; then
+if echo "$LSPCI_OUTPUT" | grep -iq -E "amd|radeon|advanced micro devices" 2>/dev/null; then
     AMD_DETECTED="true"
 fi
 
-if echo "$LSPCI_OUTPUT" | grep -iq "intel"; then
+if echo "$LSPCI_OUTPUT" | grep -iq "intel" 2>/dev/null; then
     INTEL_DETECTED="true"
 fi
 
 # Count detected GPU vendors
 GPU_COUNT=0
-[ "$NVIDIA_DETECTED" = "true" ] && GPU_COUNT=$((GPU_COUNT + 1))
-[ "$AMD_DETECTED" = "true" ] && GPU_COUNT=$((GPU_COUNT + 1))
-[ "$INTEL_DETECTED" = "true" ] && GPU_COUNT=$((GPU_COUNT + 1))
+if [ "$NVIDIA_DETECTED" = "true" ]; then GPU_COUNT=$((GPU_COUNT + 1)); fi
+if [ "$AMD_DETECTED" = "true" ]; then GPU_COUNT=$((GPU_COUNT + 1)); fi
+if [ "$INTEL_DETECTED" = "true" ]; then GPU_COUNT=$((GPU_COUNT + 1)); fi
 
 if [ "$GPU_COUNT" -gt 1 ]; then
     IS_HYBRID="true"
@@ -55,7 +55,7 @@ fi
 # Check if NVIDIA proprietary driver is loaded
 if command -v nvidia-smi &>/dev/null && nvidia-smi &>/dev/null; then
     NVIDIA_DRIVER_ACTIVE="true"
-elif lsmod 2>/dev/null | grep -q "^nvidia"; then
+elif lsmod 2>/dev/null | grep -q "^nvidia" 2>/dev/null; then
     NVIDIA_DRIVER_ACTIVE="true"
 fi
 

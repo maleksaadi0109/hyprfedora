@@ -10,7 +10,6 @@ for arg in "$@"; do
     case "$arg" in
         --dry-run) DRY_RUN="true" ;;
         --update)  UPDATE_MODE="true" ;;
-    es01
     esac
 done
 
@@ -48,8 +47,9 @@ fi
 if command -v dnf &>/dev/null; then
     if [ "$UPDATE_MODE" = "true" ]; then
         echo "[+] Updating Hyprland packages via dnf..."
-        sudo dnf check-update hyprland || true
-        sudo dnf upgrade -y "${CORE_PACKAGES[@]}"
+        # dnf install also handles upgrades for already-installed packages,
+        # ensuring missing packages are installed AND existing ones are updated.
+        sudo dnf install -y "${CORE_PACKAGES[@]}"
     else
         echo "[+] Installing Hyprland packages via dnf..."
         sudo dnf install -y "${CORE_PACKAGES[@]}"
