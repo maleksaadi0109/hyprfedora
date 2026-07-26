@@ -52,15 +52,14 @@ Place this skill directory inside your project's `.agents/skills/` directory:
 
 ```bash
 mkdir -p .agents/skills/
-# If copying from another location:
-# cp -r /path/to/fedora-hyprland-installer .agents/skills/
+cp -r fedora-hyprland-installer .agents/skills/
 ```
 
 Or install it globally for all your terminal projects:
 
 ```bash
 mkdir -p ~/.gemini/antigravity-cli/skills/
-cp -r .agents/skills/fedora-hyprland-installer ~/.gemini/antigravity-cli/skills/
+cp -r fedora-hyprland-installer ~/.gemini/antigravity-cli/skills/
 ```
 
 ### 2. Using with `agy` (Antigravity CLI)
